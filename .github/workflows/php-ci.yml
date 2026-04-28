@@ -1,10 +1,13 @@
 name: PHP CI
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   lint:
@@ -43,6 +46,10 @@ jobs:
       - name: Smoke checks
         run: |
           set -e
+      - name: 'Smoke: run small runtime checks'
+        run: |
+          set -e
+          # ensure DB helper file parses
           php -l lib/db.php
           php -l ipn_listener.php
           php -l paypal_webhook.php
