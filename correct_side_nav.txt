@@ -1,0 +1,46 @@
+    <!-- Header as side bar -->
+    <header class="side-nav">
+      <div class="side-elements">
+        <div id="img-menu">
+          <a href="index.html"
+            ><img
+              src="assets/images/logo-fairyland.webp"
+              alt="An image of baby succulents in different sized brown jars"
+          /></a>
+          <input type="checkbox" id="nav-toggle" name="nav-toggle" />
+          <label for="nav-toggle" class="nav-toggle-label"
+            ><i class="fa-solid fa-ellipsis"></i
+          ></label>
+          <nav id="menu-bar">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="videos.html">Videos</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="shop.html">Shop</a></li>
+            </ul>
+          </nav>
+        </div>
+        <ul id="social-links">
+          <li>
+            <a
+              href="https://www.instagram.com/fairylandcottage/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Our instagram link (opens in new tab)"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+          </li>
+          <li>
+            <a
+              href="https://www.youtube.com/fairylandcottage"
+              target="_blank"
+              rel="noopener"
+              aria-label="Our youtube page (opens in new tab)"
+              ><i class="fa-brands fa-youtube"></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+      <p>&#169;2024<br />Fairyland<br />Cottage</p>
+    </header>

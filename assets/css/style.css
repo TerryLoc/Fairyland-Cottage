@@ -261,6 +261,8 @@ footer {
     flex-direction: column;
     background-color: var(--main-color);
     box-shadow: 0 1px 1px var(--font-color1);
+    top: 0;
+    left: 0;
   }
 
   .top-header img {

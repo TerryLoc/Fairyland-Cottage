@@ -1,0 +1,23 @@
+    <!-- Header for page 768px up-->
+    <header class="top-header">
+      <a href="index.html"
+        ><img
+          src="assets/images/logo-fairyland.webp"
+          alt="An image of baby succulents in different sized brown jars"
+      /></a>
+      <h1 id="title">Fairyland Cottage</h1>
+
+      <input type="checkbox" id="nav-toggle2" name="nav-toggle" />
+      <label for="nav-toggle2" class="nav-toggle-label"
+        ><i class="fa-solid fa-ellipsis"></i
+      ></label>
+      <nav id="menu-bar2">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="videos.html">Videos</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="shop.html">Shop</a></li>
+        </ul>
+      </nav>
+    </header>
