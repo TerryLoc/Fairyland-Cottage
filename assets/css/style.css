@@ -135,6 +135,7 @@ h3 {
 
 /* Social links */
 #social-links {
+  display: flex;
   padding: 10px 0;
   flex-direction: column;
   list-style-type: none;

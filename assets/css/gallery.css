@@ -12,15 +12,15 @@
 
 /* Gallery */
 #photos {
-  align-items: center;
+  text-align: center;
   width: 85%;
+  margin: 0 auto;
 }
 
 #photos img {
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
   margin-top: 1px;
+  display: block;
 }
 
 /* Media query: large or landscape phones 576px & up */
