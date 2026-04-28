@@ -104,31 +104,26 @@ input {
   }
 
   /* Video sections */
-  .slider {
-    width: 100%;
-    max-width: 700px;
-    overflow: hidden;
-    position: relative;
-    margin: 20px auto;
-  }
-  
+  /* A grid display to stack videos to create a slider */
   .container {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px 100px;
     width: 100%;
-    padding: 0;
-    margin: 0;
-    transition: all 0.5s ease;
+    padding: 20px;
+    margin: 20px 0;
+    /*When videos side they are hidden */
+    overflow: hidden;
   }
 
   .container .video {
-    flex: 0 0 100%;
+    grid-column: 2/ 9;
+    grid-row: 1/ 5;
     height: 400px;
     width: 100%;
-    max-width: 100%;
-    margin: 0;
+    max-width: 700px;
+    /* Timing of the sidlers movement */
+    transition: all 3s ease;
   }
 
   .video {
@@ -136,11 +131,9 @@ input {
     box-shadow: 3px 3px 15px rgba(0, 00, 0, 0.4);
   }
 
-  .slider input {
+  .container input {
     display: none;
   }
-  
-
 
   .dots {
     display: flex;
@@ -172,23 +165,17 @@ input {
   }
 
   /*  video movements */
-  #vid1:checked ~ .container,
-  #vid4:checked ~ .container,
-  #vid7:checked ~ .container {
-    transform: translateX(0);
-  }
+  #vid1:checked ~ .video-1, #vid4:checked ~ .video-1, #vid7:checked ~ .video-1 { margin-left: 0; z-index: 1; opacity: 1; }
+  #vid1:checked ~ .video-2, #vid4:checked ~ .video-2, #vid7:checked ~ .video-2 { margin-left: 200%; opacity: 0; }
+  #vid1:checked ~ .video-3, #vid4:checked ~ .video-3, #vid7:checked ~ .video-3 { margin-left: 400%; opacity: 0; }
 
-  #vid2:checked ~ .container,
-  #vid5:checked ~ .container,
-  #vid8:checked ~ .container {
-    transform: translateX(-100%);
-  }
+  #vid2:checked ~ .video-1, #vid5:checked ~ .video-1, #vid8:checked ~ .video-1 { margin-left: -200%; opacity: 0; }
+  #vid2:checked ~ .video-2, #vid5:checked ~ .video-2, #vid8:checked ~ .video-2 { margin-left: 0; z-index: 1; opacity: 1; }
+  #vid2:checked ~ .video-3, #vid5:checked ~ .video-3, #vid8:checked ~ .video-3 { margin-left: 200%; opacity: 0; }
 
-  #vid3:checked ~ .container,
-  #vid6:checked ~ .container,
-  #vid9:checked ~ .container {
-    transform: translateX(-200%);
-  }
+  #vid3:checked ~ .video-1, #vid6:checked ~ .video-1, #vid9:checked ~ .video-1 { margin-left: -400%; opacity: 0; }
+  #vid3:checked ~ .video-2, #vid6:checked ~ .video-2, #vid9:checked ~ .video-2 { margin-left: -200%; opacity: 0; }
+  #vid3:checked ~ .video-3, #vid6:checked ~ .video-3, #vid9:checked ~ .video-3 { margin-left: 0; z-index: 1; opacity: 1; }
 }
 
 /* Adjustment to styling to help visual appearance for bigger screens */
@@ -220,12 +207,17 @@ input {
   }
 
   /* Expand container size to adjust video display for 4K screens */
-  .slider {
-    max-width: 1050px;
+  .container {
+    grid-template-columns: 150px 150px 150px 150px 150px 150px 150px 150px 150px;
+    grid-template-rows: 150px 150px 150px 150px;
+    margin-bottom: 30px;
   }
-  
+
   .container .video {
+    grid-column: 2 / 9;
+    grid-row: 1 / 5;
     height: 600px;
+    min-width: 100%;
   }
 
   .dots label {
