@@ -13,8 +13,8 @@
 /* Gallery */
 #photos {
   text-align: center;
-  width: 85%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 #photos img {
