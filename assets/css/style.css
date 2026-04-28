@@ -38,7 +38,7 @@ h3 {
 
 .top-header {
   display: none;
-  text-decoration: none !important; 
+  text-decoration: none !important;
 }
 
 .hidden-heading {
@@ -130,7 +130,6 @@ h3 {
   text-shadow: 1px 1px 1px var(--font-color1);
   cursor: pointer;
   transition: 0.2s ease-in;
-
 }
 
 /* Social links */
@@ -282,7 +281,7 @@ footer {
     text-shadow: 1px 1px 1px var(--font-color1);
     text-decoration: none !important; /* Remove underline */
     cursor: pointer;
-}
+  }
 
   #title {
     font-weight: 500;
@@ -314,7 +313,6 @@ footer {
 
   #menu-bar2 ul li {
     margin: 20px 20px 10px;
-
   }
 
   #menu-bar2 ul li:hover {
