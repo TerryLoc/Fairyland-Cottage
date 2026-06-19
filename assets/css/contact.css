@@ -49,10 +49,6 @@ main {
   margin: 40px 10px 40px 0;
 }
 
-.hidden-field {
-  display: none;
-}
-
 input,
 textarea {
   margin: 10px 0;

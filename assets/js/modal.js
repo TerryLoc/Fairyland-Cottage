@@ -34,8 +34,14 @@ document
 
     const form = event.target;
     const button = form.querySelector('button[type="submit"]');
+    const firstName = form.querySelector('[name="first_name"]')?.value || '';
+    const lastName = form.querySelector('[name="last_name"]')?.value || '';
+    const nameInput = form.querySelector('[name="name"]');
     const originalButtonText = button ? button.textContent : '';
-    const formData = new FormData(form);
+
+    if (nameInput) {
+      nameInput.value = `${firstName} ${lastName}`.trim();
+    }
 
     if (button) {
       button.disabled = true;
@@ -43,20 +49,15 @@ document
     }
 
     try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Contact form failed with status ${response.status}`);
+      if (!window.emailjs) {
+        throw new Error('EmailJS is not available.');
       }
 
+      await emailjs.sendForm('service_dxn2qvd', 'template_dr5jblq', form);
       form.reset();
       showContactModal('Your message has been sent successfully. Thank you!');
     } catch (error) {
-      console.error('Contact form submission failed', error);
+      console.error('EmailJS send failed', error);
       showContactModal(
         'Sorry, your message could not be sent. Please try again later.',
       );

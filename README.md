@@ -402,10 +402,10 @@ function validates the signed purchase token and then redirects to the matching
 external file URL. The PDF and WAV files are too large to stream directly
 through Netlify Functions.
 
-The contact form uses Netlify Forms instead of EmailJS. Enable form detection in
-the Netlify Forms panel, then redeploy. Submissions will be stored in Netlify
-even if mailbox notifications are not configured. To receive email alerts, add a
-Netlify Forms notification using a working recipient address.
+The contact form uses EmailJS with one owner-notification template. The same
+template can also be reused for purchase notifications before manually sending
+the PDF and audio file. Paste-ready EmailJS template HTML is in
+`docs/emailjs-templates.md`.
 
 ### How to clone a repository
 
