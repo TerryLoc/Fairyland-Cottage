@@ -370,6 +370,38 @@ This project is deployed using GitHub Pages. This section provides information o
 
 To access click on the link and visit [Fairyland Cottage](https://terryloc.github.io/Fairyland-Cottage/).
 
+### Netlify deployment with payments
+
+The Netlify deployment is configured in `netlify.toml`.
+
+- Branch: `main`
+- Base directory: leave blank
+- Build command: `npm run build`
+- Publish directory: `public`
+- Functions directory: `netlify/functions`
+- Node version: `22`
+
+Set these environment variables in Netlify before enabling checkout:
+
+| Key | Required | Notes |
+| --- | --- | --- |
+| `PAYPAL_ENV` | Yes | Use `sandbox` for testing or `live` for production. |
+| `PAYPAL_CLIENT_ID` | Yes | PayPal REST app client ID for the selected environment. |
+| `PAYPAL_SECRET` | Yes | PayPal REST app secret for the selected environment. |
+| `DOWNLOAD_SECRET` | Yes | At least 32 random characters. Changing it invalidates existing links. |
+| `DOWNLOAD_BOOK_URL` | Yes | Private/external hosted URL for the PDF ebook. |
+| `DOWNLOAD_AUDIO_URL` | Yes | Private/external hosted URL for the WAV audiobook. |
+| `SITE_BASE_URL` | Recommended | Production site URL, for example `https://www.example.com`. |
+| `PRODUCT_PRICE` | Optional | Defaults to `9.99`. |
+| `PRODUCT_CURRENCY` | Optional | Defaults to `EUR`. |
+| `PRODUCT_NAME` | Optional | Defaults to `Fairyland Cottage Book Bundle`. |
+
+PayPal checkout uses `/create_order.php`, `/success.php`, and `/download.php`.
+On Netlify these paths are rewritten to serverless functions. The download
+function validates the signed purchase token and then redirects to the matching
+external file URL. The PDF and WAV files are too large to stream directly
+through Netlify Functions.
+
 ### How to clone a repository
 
 1. Fork the repository by clicking the "Fork" button at the top of the repository page.
