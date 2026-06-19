@@ -5,12 +5,16 @@ const root = path.resolve(__dirname, '..');
 const outputDir = path.join(root, 'public');
 
 const entriesToCopy = [
+  '_headers',
   '404.html',
   'assets',
   'contact.html',
+  'cookie-policy.html',
   'gallery.html',
   'index.html',
+  'robots.txt',
   'shop.html',
+  'sitemap.xml',
   'videos.html',
 ];
 

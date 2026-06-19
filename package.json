@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "node scripts/build-netlify.js"
+    "build": "node scripts/build-netlify.js",
+    "seo": "node scripts/apply-seo.js"
   },
   "engines": {
     "node": ">=22"
