@@ -1,0 +1,43 @@
+name: Site CI
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build and validate static site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check scripts/apply-seo.js
+          node --check scripts/build-netlify.js
+          node --check assets/js/modal.js
+
+      - name: Apply SEO metadata
+        run: npm run seo
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Validate structured data JSON
+        run: |
+          node -e "const fs=require('fs'); const pages=['index.html','videos.html','gallery.html','contact.html','shop.html','cookie-policy.html','404.html']; for (const f of pages) { const h=fs.readFileSync(f,'utf8'); const blocks=[...h.matchAll(/<script type=\"application\/ld\+json\">([\s\S]*?)<\/script>/g)]; if (blocks.length!==1) throw new Error(f+' JSON-LD blocks '+blocks.length); JSON.parse(blocks[0][1]); }"

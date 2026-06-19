@@ -3,8 +3,8 @@
 The files in `archive/legacy-payment-download/` belong to the older automatic
 download setup and are not connected to the active Netlify sales flow.
 
-The old private file folder, `private_downloads/`, is ignored and is not part of
-the Netlify build.
+The old private file folder is no longer kept in this working tree. Product
+files are sent manually through Smash.
 
 The active Netlify sales flow is:
 

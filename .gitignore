@@ -6,7 +6,6 @@ __pycache__/
 *.py[cod]
 node_modules/
 public/
-.github/
 cloudinary_python.txt
 # runtime / private
 /data/
