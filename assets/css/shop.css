@@ -118,6 +118,46 @@ main p {
   margin-bottom: 14px;
 }
 
+.paypal-hosted-button form {
+  display: inline-grid;
+  align-content: start;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.paypal-hosted-button__submit {
+  min-width: 11.625rem;
+  height: 3.125rem;
+  padding: 0 2rem;
+  border: none;
+  border-radius: 1.5rem;
+  background-color: var(--font-color1);
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Josefin Slab', serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+.paypal-hosted-button__submit:hover {
+  background-color: #2f3422;
+}
+
+.paypal-hosted-button__cards {
+  max-width: 230px;
+}
+
+.paypal-hosted-button__powered {
+  font-size: 0.75rem;
+}
+
+.paypal-hosted-button__powered img {
+  height: 0.875rem;
+  vertical-align: middle;
+}
+
 .buy-button {
   display: inline-flex;
   align-items: center;
