@@ -378,29 +378,15 @@ The Netlify deployment is configured in `netlify.toml`.
 - Base directory: leave blank
 - Build command: `npm run build`
 - Publish directory: `public`
-- Functions directory: `netlify/functions`
 - Node version: `22`
 
-Set these environment variables in Netlify before enabling checkout:
+The live shop page uses a PayPal Hosted Button embedded in `shop.html`.
+No PayPal credentials are required in Netlify environment variables for this
+hosted-button flow.
 
-| Key | Required | Notes |
-| --- | --- | --- |
-| `PAYPAL_ENV` | Yes | Use `sandbox` for testing or `live` for production. |
-| `PAYPAL_CLIENT_ID` | Yes | PayPal REST app client ID for the selected environment. |
-| `PAYPAL_SECRET` | Yes | PayPal REST app secret for the selected environment. |
-| `SITE_BASE_URL` | Recommended | Production site URL, for example `https://www.example.com`. |
-| `PRODUCT_PRICE` | Optional | Defaults to `9.99`. |
-| `PRODUCT_CURRENCY` | Optional | Defaults to `EUR`. |
-| `PRODUCT_NAME` | Optional | Defaults to `Fairyland Cottage Book Bundle`. |
-| `EMAILJS_PUBLIC_KEY` | Optional | Defaults to `7tEy21nwxbWYwxw4E`. |
-| `EMAILJS_SERVICE_ID` | Optional | Defaults to `service_dxn2qvd`. |
-| `EMAILJS_OWNER_TEMPLATE_ID` | Optional | Defaults to `template_dr5jblq`. |
-| `EMAILJS_ORDER_TEMPLATE_ID` | Optional | Defaults to `template_1rjksfb`. |
-
-PayPal checkout uses `/create_order.php` and `/success.php`. On Netlify these
-paths are rewritten to serverless functions. After payment capture, the success
-function sends the seller order notification and buyer confirmation through
-EmailJS. Files are sent manually through Smash within 30 minutes.
+The PayPal hosted button processes the payment. Files are sent manually through
+Smash within 30 minutes. The older custom checkout and automatic download flow
+is archived in `archive/legacy-payment-download/`.
 
 The contact form uses EmailJS with one owner-notification template. The same
 template can also be reused for purchase notifications before manually sending

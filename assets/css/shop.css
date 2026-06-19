@@ -112,6 +112,12 @@ main p {
   margin-top: 18px;
 }
 
+.paypal-hosted-button {
+  width: min(360px, 100%);
+  margin-top: 16px;
+  margin-bottom: 14px;
+}
+
 .buy-button {
   display: inline-flex;
   align-items: center;

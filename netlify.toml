@@ -2,20 +2,5 @@
 command = "npm run build"
 publish = "public"
 
-[functions]
-directory = "netlify/functions"
-
 [build.environment]
 NODE_VERSION = "22"
-
-[[redirects]]
-from = "/create_order.php"
-to = "/.netlify/functions/create-paypal-order"
-status = 200
-force = true
-
-[[redirects]]
-from = "/success.php"
-to = "/.netlify/functions/paypal-success"
-status = 200
-force = true
