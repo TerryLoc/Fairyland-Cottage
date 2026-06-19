@@ -19,9 +19,3 @@ from = "/success.php"
 to = "/.netlify/functions/paypal-success"
 status = 200
 force = true
-
-[[redirects]]
-from = "/download.php"
-to = "/.netlify/functions/download"
-status = 200
-force = true

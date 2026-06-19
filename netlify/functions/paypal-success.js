@@ -1,4 +1,6 @@
 const {
+  EMAILJS_ORDER_TEMPLATE_ID,
+  EMAILJS_OWNER_TEMPLATE_ID,
   PRODUCT_CURRENCY,
   PRODUCT_NAME,
   PRODUCT_PRICE,
@@ -6,12 +8,13 @@ const {
   assertConfig,
   capturePayPalOrder,
   completedStatus,
+  delay,
   errorPage,
   escapeHtml,
-  generateDownloadToken,
   getPayPalAccessToken,
   getPayPalOrder,
   htmlResponse,
+  sendEmailJsEmail,
   validateCapturedAmount,
 } = require('./_payment-utils');
 
@@ -59,18 +62,37 @@ exports.handler = async (event) => {
       .join(' ')
       .trim();
     const friendlyName = payerName || 'friend';
-    const downloadExpiry = Math.floor(Date.now() / 1000) + 3600;
-    const bookToken = generateDownloadToken('book', downloadExpiry, supportOrderId);
-    const audioToken = generateDownloadToken('audio', downloadExpiry, supportOrderId);
-    const bookLink = `/download.php?file=book&expires=${downloadExpiry}&token=${encodeURIComponent(bookToken)}`;
-    const audioLink = `/download.php?file=audio&expires=${downloadExpiry}&token=${encodeURIComponent(audioToken)}`;
+    const buyerEmail = String(payload.payer?.email_address || '').trim();
+    const capture = payload.purchase_units?.[0]?.payments?.captures?.[0] || {};
+    const amount = capture.amount || payload.purchase_units?.[0]?.amount || {};
+    const amountValue = String(amount.value || PRODUCT_PRICE);
+    const amountCurrency = String(amount.currency_code || PRODUCT_CURRENCY);
+    let emailStatus = 'sent';
+
+    try {
+      await sendOrderEmails({
+        amountCurrency,
+        amountValue,
+        buyerEmail,
+        friendlyName,
+        supportOrderId,
+      });
+    } catch (emailError) {
+      emailStatus = 'failed';
+      console.error('order EmailJS notification failed', {
+        orderId: supportOrderId,
+        error: emailError,
+      });
+    }
 
     return htmlResponse(
       200,
       successPage({
-        audioLink,
-        bookLink,
+        buyerEmail,
+        emailStatus,
         friendlyName,
+        amountCurrency,
+        amountValue,
         supportOrderId,
       }),
     );
@@ -87,14 +109,72 @@ exports.handler = async (event) => {
   }
 };
 
-function successPage({ audioLink, bookLink, friendlyName, supportOrderId }) {
+async function sendOrderEmails({
+  amountCurrency,
+  amountValue,
+  buyerEmail,
+  friendlyName,
+  supportOrderId,
+}) {
+  if (buyerEmail === '') {
+    throw new Error('PayPal response did not include a payer email address.');
+  }
+
+  const sharedParams = {
+    amount: `${amountCurrency} ${amountValue}`,
+    currency: amountCurrency,
+    email: buyerEmail,
+    name: friendlyName,
+    order_id: supportOrderId,
+    price: amountValue,
+    product_name: PRODUCT_NAME,
+    title: PRODUCT_NAME,
+  };
+
+  await sendEmailJsEmail(EMAILJS_OWNER_TEMPLATE_ID, {
+    ...sharedParams,
+    message: [
+      `Order reference: ${supportOrderId}`,
+      `Buyer: ${friendlyName}`,
+      `Buyer email: ${buyerEmail}`,
+      `Product: ${PRODUCT_NAME}`,
+      `Amount: ${amountCurrency} ${amountValue}`,
+      '',
+      'Manual action: send the PDF ebook and audio file through Smash within 30 minutes.',
+    ].join('\n'),
+    request_type: 'Purchase notification',
+  });
+
+  await delay(1100);
+
+  await sendEmailJsEmail(EMAILJS_ORDER_TEMPLATE_ID, {
+    ...sharedParams,
+    message:
+      'Your PDF ebook and audio file will be sent manually through Smash within the next 30 minutes.',
+    request_type: 'Order confirmation',
+  });
+}
+
+function successPage({
+  amountCurrency,
+  amountValue,
+  buyerEmail,
+  emailStatus,
+  friendlyName,
+  supportOrderId,
+}) {
+  const emailMessage =
+    emailStatus === 'sent'
+      ? `A confirmation email has been sent to ${buyerEmail}.`
+      : 'Your payment was received, but the confirmation email could not be sent automatically. Please contact support with your order reference if you do not hear from us shortly.';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="no-referrer">
-  <title>Fairyland Cottage - Download your purchase</title>
+  <title>Fairyland Cottage - Order received</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -115,8 +195,7 @@ function successPage({ audioLink, bookLink, friendlyName, supportOrderId }) {
     .paypal-note{margin-top:14px;font-size:.95rem;color:rgba(65,70,45,.9)}
     .support-box{align-self:stretch;background:rgba(222,213,205,.55);border-radius:24px;padding:20px;border:1px solid rgba(65,70,45,.12)}.support-box h3{margin:0 0 12px;text-transform:uppercase;letter-spacing:.14em;font-size:1.05rem}
     .reference{word-break:break-all;font-size:.95rem;line-height:1.5;padding:12px 14px;border-radius:16px;background:rgba(243,234,226,.95);border:1px solid rgba(65,70,45,.12);margin-bottom:16px}
-    .download-list{display:grid;gap:14px;margin-top:16px}.download-link{display:block;text-align:center;padding:14px 18px;border-radius:18px;text-decoration:none;background:#e9ead6;color:var(--font-color1);border:1px solid rgba(65,70,45,.16);font-weight:700;letter-spacing:.08em;text-transform:uppercase}.download-link:hover{background:var(--font-color1);color:var(--font-color2)}
-    .expiry{margin-top:16px;font-size:.95rem}.support-link{color:var(--font-color1);font-weight:700}
+    .notice{margin-top:16px;padding:16px;border-radius:18px;background:#e9ead6;border:1px solid rgba(65,70,45,.16);font-weight:700}.support-link{color:var(--font-color1);font-weight:700}
     @media (max-width:860px){.card{grid-template-columns:1fr}}@media (max-width:620px){.page{width:min(100% - 20px,100%);padding-top:10px}.brand{padding:12px 14px}.brand-mark{width:48px;height:48px;border-radius:16px}.card{padding:22px 18px;border-radius:22px}}
   </style>
 </head>
@@ -126,7 +205,7 @@ function successPage({ audioLink, bookLink, friendlyName, supportOrderId }) {
       <div class="brand-mark">FC</div>
       <div>
         <h1>Fairyland Cottage</h1>
-        <p>Secure digital downloads</p>
+        <p>Secure digital order</p>
       </div>
     </header>
 
@@ -135,28 +214,25 @@ function successPage({ audioLink, bookLink, friendlyName, supportOrderId }) {
         <span class="label">Payment complete</span>
         <h2>Thank you, ${escapeHtml(friendlyName)}.</h2>
         <p>Your PayPal payment for <strong>${escapeHtml(PRODUCT_NAME)}</strong> was completed successfully.</p>
-        <p>You can now download both files below. Each secure link expires in one hour, and you can use your order reference if you need support.</p>
+        <p>Your PDF ebook and audio file will be sent manually through Smash within the next 30 minutes.</p>
         <ul class="details">
           <li>Includes the PDF ebook and the WAV audio book</li>
-          <li>Secure download links generated just for your order</li>
-          <li>Links expire automatically after one hour</li>
+          <li>Files are sent manually through Smash for download to your device</li>
+          <li>Please keep your order reference in case you need support</li>
         </ul>
         <div class="price-row">
-          <div class="price">${escapeHtml(PRODUCT_CURRENCY)} ${escapeHtml(PRODUCT_PRICE)}</div>
+          <div class="price">${escapeHtml(amountCurrency)} ${escapeHtml(amountValue)}</div>
           <a class="buy-button" href="/contact.html">Need help? Contact us</a>
         </div>
-        <p class="paypal-note">Your payment was processed through PayPal and the order reference is shown in the support panel.</p>
+        <p class="paypal-note">${escapeHtml(emailMessage)}</p>
       </section>
 
       <aside class="support-box">
         <h3>Order reference</h3>
         <div class="reference">${escapeHtml(supportOrderId)}</div>
-        <h3>Download links</h3>
-        <div class="download-list">
-          <a class="download-link" href="${escapeHtml(bookLink)}">Download PDF ebook</a>
-          <a class="download-link" href="${escapeHtml(audioLink)}">Download WAV audio book</a>
-        </div>
-        <p class="expiry">These links expire in 1 hour. If you need new links, please use the <a class="support-link" href="/contact.html">contact page</a> and include your order reference.</p>
+        <h3>Delivery</h3>
+        <p class="notice">The files will be sent through Smash within 30 minutes.</p>
+        <p class="paypal-note">If anything looks wrong, use the <a class="support-link" href="/contact.html">contact page</a> and include your order reference.</p>
       </aside>
     </main>
   </div>

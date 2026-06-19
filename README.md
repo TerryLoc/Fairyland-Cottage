@@ -388,19 +388,19 @@ Set these environment variables in Netlify before enabling checkout:
 | `PAYPAL_ENV` | Yes | Use `sandbox` for testing or `live` for production. |
 | `PAYPAL_CLIENT_ID` | Yes | PayPal REST app client ID for the selected environment. |
 | `PAYPAL_SECRET` | Yes | PayPal REST app secret for the selected environment. |
-| `DOWNLOAD_SECRET` | Yes | At least 32 random characters. Changing it invalidates existing links. |
-| `DOWNLOAD_BOOK_URL` | Yes | Private/external hosted URL for the PDF ebook. |
-| `DOWNLOAD_AUDIO_URL` | Yes | Private/external hosted URL for the WAV audiobook. |
 | `SITE_BASE_URL` | Recommended | Production site URL, for example `https://www.example.com`. |
 | `PRODUCT_PRICE` | Optional | Defaults to `9.99`. |
 | `PRODUCT_CURRENCY` | Optional | Defaults to `EUR`. |
 | `PRODUCT_NAME` | Optional | Defaults to `Fairyland Cottage Book Bundle`. |
+| `EMAILJS_PUBLIC_KEY` | Optional | Defaults to `7tEy21nwxbWYwxw4E`. |
+| `EMAILJS_SERVICE_ID` | Optional | Defaults to `service_dxn2qvd`. |
+| `EMAILJS_OWNER_TEMPLATE_ID` | Optional | Defaults to `template_dr5jblq`. |
+| `EMAILJS_ORDER_TEMPLATE_ID` | Optional | Defaults to `template_1rjksfb`. |
 
-PayPal checkout uses `/create_order.php`, `/success.php`, and `/download.php`.
-On Netlify these paths are rewritten to serverless functions. The download
-function validates the signed purchase token and then redirects to the matching
-external file URL. The PDF and WAV files are too large to stream directly
-through Netlify Functions.
+PayPal checkout uses `/create_order.php` and `/success.php`. On Netlify these
+paths are rewritten to serverless functions. After payment capture, the success
+function sends the seller order notification and buyer confirmation through
+EmailJS. Files are sent manually through Smash within 30 minutes.
 
 The contact form uses EmailJS with one owner-notification template. The same
 template can also be reused for purchase notifications before manually sending

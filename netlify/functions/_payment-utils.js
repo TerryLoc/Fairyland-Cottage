@@ -1,5 +1,3 @@
-const crypto = require('crypto');
-
 const PAYPAL_ENV = (process.env.PAYPAL_ENV || 'sandbox').toLowerCase();
 const PAYPAL_BASE_URL =
   process.env.PAYPAL_BASE_URL ||
@@ -11,6 +9,13 @@ const PRODUCT_PRICE = process.env.PRODUCT_PRICE || '9.99';
 const PRODUCT_CURRENCY = process.env.PRODUCT_CURRENCY || 'EUR';
 const PRODUCT_NAME =
   process.env.PRODUCT_NAME || 'Fairyland Cottage Book Bundle';
+const EMAILJS_PUBLIC_KEY =
+  process.env.EMAILJS_PUBLIC_KEY || '7tEy21nwxbWYwxw4E';
+const EMAILJS_SERVICE_ID = process.env.EMAILJS_SERVICE_ID || 'service_dxn2qvd';
+const EMAILJS_OWNER_TEMPLATE_ID =
+  process.env.EMAILJS_OWNER_TEMPLATE_ID || 'template_dr5jblq';
+const EMAILJS_ORDER_TEMPLATE_ID =
+  process.env.EMAILJS_ORDER_TEMPLATE_ID || 'template_1rjksfb';
 
 function siteBaseUrl(event) {
   const configured = process.env.SITE_BASE_URL || process.env.URL || '';
@@ -96,21 +101,10 @@ function assertConfig() {
   const missing = [];
   if (!process.env.PAYPAL_CLIENT_ID) missing.push('PAYPAL_CLIENT_ID');
   if (!process.env.PAYPAL_SECRET) missing.push('PAYPAL_SECRET');
-  if (!isDownloadSecretConfigured()) missing.push('DOWNLOAD_SECRET');
-  if (!process.env.DOWNLOAD_BOOK_URL) missing.push('DOWNLOAD_BOOK_URL');
-  if (!process.env.DOWNLOAD_AUDIO_URL) missing.push('DOWNLOAD_AUDIO_URL');
 
   if (missing.length > 0) {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
-}
-
-function isDownloadSecretConfigured() {
-  return (
-    typeof process.env.DOWNLOAD_SECRET === 'string' &&
-    process.env.DOWNLOAD_SECRET.length >= 32 &&
-    process.env.DOWNLOAD_SECRET !== 'change-this-to-a-long-random-secret-string'
-  );
 }
 
 async function paypalRequest(path, options = {}) {
@@ -131,6 +125,34 @@ async function paypalRequest(path, options = {}) {
     raw,
     data,
   };
+}
+
+async function sendEmailJsEmail(templateId, templateParams) {
+  const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      service_id: EMAILJS_SERVICE_ID,
+      template_id: templateId,
+      user_id: EMAILJS_PUBLIC_KEY,
+      template_params: templateParams,
+    }),
+  });
+
+  const body = await response.text();
+  if (!response.ok) {
+    throw new Error(`EmailJS send failed with status ${response.status}: ${body}`);
+  }
+
+  return body;
+}
+
+function delay(milliseconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 }
 
 async function getPayPalAccessToken() {
@@ -246,96 +268,9 @@ function validateCapturedAmount(payload) {
   );
 }
 
-function base64urlEncode(value) {
-  return Buffer.from(value)
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-}
-
-function base64urlDecode(value) {
-  const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
-  const padded = normalized + '='.repeat((4 - (normalized.length % 4)) % 4);
-  return Buffer.from(padded, 'base64').toString('utf8');
-}
-
-function generateDownloadToken(file, expires, orderId) {
-  if (!isDownloadSecretConfigured()) {
-    throw new Error('DOWNLOAD_SECRET is not configured with a secure value.');
-  }
-
-  const payload = JSON.stringify({ file, expires, order_id: orderId });
-  const signature = crypto
-    .createHmac('sha256', process.env.DOWNLOAD_SECRET)
-    .update(payload)
-    .digest();
-
-  return `${base64urlEncode(payload)}.${base64urlEncode(signature)}`;
-}
-
-function decodeDownloadToken(token) {
-  if (!isDownloadSecretConfigured()) {
-    return { valid: false, reason: 'secret' };
-  }
-
-  const parts = String(token || '').split('.');
-  if (parts.length !== 2) {
-    return { valid: false, reason: 'format' };
-  }
-
-  const [payloadPart, signaturePart] = parts;
-  let payloadJson = '';
-
-  try {
-    payloadJson = base64urlDecode(payloadPart);
-  } catch (error) {
-    return { valid: false, reason: 'payload' };
-  }
-
-  const expectedSignature = crypto
-    .createHmac('sha256', process.env.DOWNLOAD_SECRET)
-    .update(payloadJson)
-    .digest();
-  const actualSignature = Buffer.from(
-    signaturePart.replace(/-/g, '+').replace(/_/g, '/') +
-      '='.repeat((4 - (signaturePart.length % 4)) % 4),
-    'base64',
-  );
-
-  if (
-    actualSignature.length !== expectedSignature.length ||
-    !crypto.timingSafeEqual(actualSignature, expectedSignature)
-  ) {
-    return { valid: false, reason: 'signature' };
-  }
-
-  try {
-    const payload = JSON.parse(payloadJson);
-    return { valid: true, payload };
-  } catch (error) {
-    return { valid: false, reason: 'json' };
-  }
-}
-
-function normalizeFileKey(file) {
-  const normalized = String(file || '').toLowerCase().trim();
-  return ['book', 'audio'].includes(normalized) ? normalized : '';
-}
-
-function downloadUrlForFile(file) {
-  if (file === 'book') return process.env.DOWNLOAD_BOOK_URL || '';
-  if (file === 'audio') return process.env.DOWNLOAD_AUDIO_URL || '';
-  return '';
-}
-
-function downloadNameForFile(file) {
-  if (file === 'book') return 'fairyland-book.pdf';
-  if (file === 'audio') return 'fairyland-audiobook.wav';
-  return 'fairyland-download';
-}
-
 module.exports = {
+  EMAILJS_ORDER_TEMPLATE_ID,
+  EMAILJS_OWNER_TEMPLATE_ID,
   PRODUCT_CURRENCY,
   PRODUCT_NAME,
   PRODUCT_PRICE,
@@ -344,17 +279,14 @@ module.exports = {
   capturePayPalOrder,
   completedStatus,
   createPayPalOrder,
-  decodeDownloadToken,
-  downloadNameForFile,
-  downloadUrlForFile,
+  delay,
   errorPage,
   escapeHtml,
-  generateDownloadToken,
   getPayPalAccessToken,
   getPayPalOrder,
   htmlResponse,
   noCacheHeaders,
-  normalizeFileKey,
+  sendEmailJsEmail,
   siteBaseUrl,
   validateCapturedAmount,
 };

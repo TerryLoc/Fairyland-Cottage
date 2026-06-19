@@ -71,7 +71,7 @@ Recommended EmailJS settings:
 
 ## Buyer confirmation template
 
-Use this EmailJS template later for the automatic buyer confirmation after a
+Use this EmailJS template for the automatic buyer confirmation after a
 successful PayPal purchase.
 
 Recommended EmailJS settings:
