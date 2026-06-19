@@ -114,7 +114,19 @@
         </h2>
         <p>I&#39;d love to hear from you!</p>
         <!-- Contact form -->
-        <form id="contact-form">
+        <form
+          id="contact-form"
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden-field">
+            <label>
+              Do not fill this in:
+              <input name="bot-field" />
+            </label>
+          </p>
           <label for="first-name">First Name:</label>
           <input
             type="text"
@@ -187,7 +199,9 @@
     <div id="emailSentModal" class="modal">
       <div class="modal-content">
         <span class="close-button">&times;</span>
-        <p>Your email has been sent successfully! Thank you 🏡</p>
+        <p id="contact-form-message">
+          Your message has been sent successfully. Thank you!
+        </p>
       </div>
     </div>
 
@@ -198,13 +212,5 @@
 
     <!-- JavaScript for modal -->
     <script src="assets/js/modal.js"></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script type="text/javascript">
-      (function () {
-        emailjs.init('gZ8YpkFq6fNcY2fqk');
-      })();
-    </script>
   </body>
 </html>

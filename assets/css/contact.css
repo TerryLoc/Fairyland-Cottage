@@ -49,6 +49,10 @@ main {
   margin: 40px 10px 40px 0;
 }
 
+.hidden-field {
+  display: none;
+}
+
 input,
 textarea {
   margin: 10px 0;
@@ -101,6 +105,11 @@ textarea {
   color: var(--main-color);
   background-color: var(--font-color1);
   border: 1px solid var(--main-color);
+}
+
+.send-button:disabled {
+  cursor: wait;
+  opacity: 0.75;
 }
 
 /* Modal */
