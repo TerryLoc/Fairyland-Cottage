@@ -14,9 +14,9 @@ notifications sent to the site owner.
 
 Recommended EmailJS settings:
 
-- Public Key: `7tEy21nwxbWYwxw4E`
-- Service ID: `service_dxn2qvd`
-- Template ID: `template_dr5jblq`
+- Public Key: `FF9g345QQ9nuOgQAj`
+- Service ID: `service_bmxa104`
+- Template ID: `template_468hws4`
 - To Email: your working receiving email address
 - Reply To: `{{email}}`
 - Subject: `Fairyland Cottage {{request_type}} - {{title}}`
@@ -76,8 +76,8 @@ successful PayPal purchase.
 
 Recommended EmailJS settings:
 
-- Public Key: `7tEy21nwxbWYwxw4E`
-- Service ID: `service_dxn2qvd`
+- Public Key: `FF9g345QQ9nuOgQAj`
+- Service ID: `service_bmxa104`
 - Template ID: `template_1rjksfb`
 - To Email: `{{email}}`
 - Reply To: your working support email address

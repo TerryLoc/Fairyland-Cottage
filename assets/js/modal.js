@@ -53,7 +53,7 @@ document
         throw new Error('EmailJS is not available.');
       }
 
-      await emailjs.sendForm('service_dxn2qvd', 'template_dr5jblq', form);
+      await emailjs.sendForm('service_bmxa104', 'template_468hws4', form);
       form.reset();
       showContactModal('Your message has been sent successfully. Thank you!');
     } catch (error) {
