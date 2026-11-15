@@ -393,6 +393,27 @@ template can also be reused for purchase notifications before manually sending
 the PDF and audio file. Paste-ready EmailJS template HTML is in
 `docs/emailjs-templates.md`.
 
+### Free recipe signup
+
+The distraction-free landing page is at `/free-recipe/`. Before sharing it:
+
+1. Add the finished recipe PDF as `assets/recipe.pdf`. To use another path,
+   update both the download link in `free-recipe/index.html` and the PDF check
+   in `assets/js/free-recipe.js`. The form will not submit until the PDF is
+   available and served as `application/pdf`.
+2. Set `KIT_API_KEY` as a secret environment variable in Netlify for the
+   Functions runtime and redeploy. Create the key in Kit's developer settings;
+   never put it in the HTML or commit it to the repository.
+3. Test a signup on the deployed Netlify site and check that the subscriber
+   appears in Kit and the PDF downloads. The function uses Kit's v4 subscriber
+   API, not a particular Kit form or automation. New subscribers are created
+   as active; existing non-active subscribers are not reactivated by this API
+   and will see an error. Configure any welcome emails separately in Kit.
+
+The page reveals a direct public download after signup; it does not send the PDF
+by email or restrict access to the PDF URL. A static-only host such as GitHub
+Pages cannot run the Netlify function. The signup form requires JavaScript.
+
 ### How to clone a repository
 
 1. Fork the repository by clicking the "Fork" button at the top of the repository page.

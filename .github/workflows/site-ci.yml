@@ -31,6 +31,11 @@ jobs:
           node --check scripts/apply-seo.js
           node --check scripts/build-netlify.js
           node --check assets/js/modal.js
+          node --check assets/js/free-recipe.js
+          node --check netlify/functions/recipe-signup.js
+
+      - name: Test recipe signup
+        run: node --test tests/recipe-signup.test.js
 
       - name: Apply SEO metadata
         run: npm run seo

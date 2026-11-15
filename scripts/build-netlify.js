@@ -10,6 +10,7 @@ const entriesToCopy = [
   'assets',
   'contact.html',
   'cookie-policy.html',
+  'free-recipe',
   'gallery.html',
   'index.html',
   'robots.txt',
