@@ -7,6 +7,7 @@ const outputDir = path.join(root, 'public');
 const entriesToCopy = [
   '_headers',
   '404.html',
+  '500.html',
   'assets',
   'contact.html',
   'cookie-policy.html',

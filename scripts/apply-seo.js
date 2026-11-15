@@ -75,9 +75,24 @@ const pages = {
   '404.html': {
     title: 'Page Not Found | Fairyland Cottage',
     description:
-      'The page you were looking for could not be found. Return to Fairyland Cottage for simple living, videos, galleries, contact, and shop pages.',
+      'This path has wandered into the woods. Find your way back to Fairyland Cottage, explore the gallery, watch a video, or visit the shop.',
     path: '/404.html',
     image: defaultImage,
+    imageAlt: 'Fairyland Cottage surrounded by trees',
+    imageWidth: 6224,
+    imageHeight: 3372,
+    type: 'website',
+    noindex: true,
+  },
+  '500.html': {
+    title: 'A Little Garden Pause | Fairyland Cottage',
+    description:
+      'Something went wrong while loading Fairyland Cottage. Try again in a little while or return to the cottage home page.',
+    path: '/500.html',
+    image: defaultImage,
+    imageAlt: 'Fairyland Cottage surrounded by trees',
+    imageWidth: 6224,
+    imageHeight: 3372,
     type: 'website',
     noindex: true,
   },

@@ -354,7 +354,7 @@ After utilizing XConvert to compress all images on the website, I subsequently c
 
 - I performed thorough testing on the website using my Android device to verify the functionality of all buttons, features, and the contact form. Subsequently, I tested the site on an iOS device belonging to my wife to confirm compatibility with Apple devices, which proved successful.
 
-- In the event of a page loading issue, I have implemented a 404.html page to redirect users to an alternative page and offer apologies for any inconvenience caused by the site's loading error.
+- The site includes a fairyland-themed 404 page for missing pages and a 500 page for server errors. Netlify serves the custom 404 page automatically; the 500 page is published as `/500.html` for use where the hosting platform supports custom server-error pages.
 
 - The Gallery page experiences slow load times due to high-quality images. By converting all images from .jpg to .webp format, an improvement in speed was observed.
 

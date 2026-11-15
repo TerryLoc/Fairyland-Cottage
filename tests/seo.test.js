@@ -63,13 +63,20 @@ test('indexable pages have valid structured data and accurate product offer', ()
   assert.ok(readPublicFile('shop.html').includes('EUR 9.99'), 'structured price matches the visible offer');
 });
 
-test('404 page is excluded from indexing without a canonical or structured data', () => {
-  const html = readPublicFile('404.html');
+test('404 and 500 pages are excluded from indexing and use site-root assets', () => {
   const headers = readPublicFile('_headers');
 
-  assert.match(html, /<meta name="robots" content="noindex, follow" \/>/);
-  assert.doesNotMatch(html, /<link rel="canonical"|application\/ld\+json/);
-  assert.match(headers, /\/404\.html[\s\S]*?X-Robots-Tag: noindex, follow/);
+  for (const [file, code] of [['404.html', '404'], ['500.html', '500']]) {
+    const html = readPublicFile(file);
+
+    assert.match(html, /<meta name="robots" content="noindex, follow" \/>/, `${file} is noindex`);
+    assert.doesNotMatch(html, /<link rel="canonical"|application\/ld\+json/, `${file} omits canonical and structured data`);
+    assert.match(html, new RegExp(`<p class="error-code" aria-hidden="true">${code}<\\/p>`), `${file} displays its status`);
+    assert.match(html, /<h1 id="error-title">[^<]+<\/h1>/, `${file} has one clear page heading`);
+    assert.match(html, /href="\/assets\/css\/error-pages\.css"/, `${file} uses the shared error page stylesheet`);
+    assert.match(html, /href="\/"[^>]*>[^<]+<\/a>/, `${file} links back to the home page`);
+    assert.match(headers, new RegExp(`/${code === '404' ? '404' : '500'}\\.html[\\s\\S]*?X-Robots-Tag: noindex, follow`));
+  }
 });
 
 test('sitemap contains only the indexable canonical URLs', () => {

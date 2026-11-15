@@ -5,3 +5,6 @@
 
 /404.html
   X-Robots-Tag: noindex, follow
+
+/500.html
+  X-Robots-Tag: noindex, follow
