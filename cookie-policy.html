@@ -14,44 +14,18 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fairylandcottage.com/cookie-policy.html" />
     <meta property="og:image" content="https://fairylandcottage.com/assets/images/webimages/house.webp" />
+    <meta property="og:image:alt" content="A cottage surrounded by trees and greenery" />
+    <meta property="og:image:width" content="6224" />
+    <meta property="og:image:height" content="3372" />
+    <meta property="og:image:type" content="image/webp" />
     <meta property="og:site_name" content="Fairyland Cottage" />
     <meta property="og:locale" content="en_IE" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Cookie Policy | Fairyland Cottage" />
-    <meta name="twitter:description" content="Read the Fairyland Cottage cookie policy, including how the site uses essential functionality, EmailJS contact forms, and PayPal checkout links." />
-    <meta name="twitter:image" content="https://fairylandcottage.com/assets/images/webimages/house.webp" />
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png" />
-    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
     <link rel="stylesheet" href="assets/css/style.css" />
-    <style>
-      main {
-        width: min(900px, 92%);
-        margin: 40px auto;
-        padding: 28px;
-        background: rgba(243, 234, 226, 0.92);
-        border: 1px solid rgba(65, 70, 45, 0.16);
-        border-radius: 8px;
-        color: var(--font-color1);
-      }
-
-      main h2,
-      main h3,
-      main p,
-      main li {
-        line-height: 1.6;
-      }
-
-      main h2 {
-        margin-top: 0;
-      }
-
-      main a {
-        color: var(--font-color1);
-        font-weight: 700;
-      }
-    </style>
+    <link rel="stylesheet" href="assets/css/cookie-policy.css" />
     <script type="application/ld+json">
       {
             "@context": "https://schema.org",
@@ -61,7 +35,7 @@
                         "@id": "https://fairylandcottage.com/#organization",
                         "name": "Fairyland Cottage",
                         "url": "https://fairylandcottage.com/",
-                        "logo": "https://fairylandcottage.com/assets/images/logo-fairyland.webp",
+                        "logo": "https://fairylandcottage.com/assets/favicon/android-chrome-512x512.png",
                         "sameAs": [
                               "https://www.instagram.com/fairylandcottage/",
                               "https://www.youtube.com/fairylandcottage"
@@ -149,7 +123,7 @@
           src="assets/images/logo-fairyland.webp"
           alt="Fairyland Cottage logo" />
       </a>
-      <h1 id="title">Fairyland Cottage</h1>
+      <p id="title" class="site-title">Fairyland Cottage</p>
       <input type="checkbox" id="nav-toggle2" name="nav-toggle" />
       <label for="nav-toggle2" class="nav-toggle-label">
         <i class="fa-solid fa-ellipsis"></i>
@@ -165,41 +139,67 @@
       </nav>
     </header>
 
-    <main>
-      <h2>Cookie policy</h2>
-      <p>
-        Fairyland Cottage keeps tracking to a minimum. The site does not use
-        Google Analytics, advertising pixels, or a cookie banner for
-        non-essential marketing cookies.
-      </p>
+    <main class="cookie-policy-main">
+      <article class="cookie-policy-card" aria-labelledby="cookie-policy-title">
+        <header class="cookie-policy-heading">
+          <p class="cookie-policy-eyebrow">Privacy at Fairyland Cottage</p>
+          <h1 id="cookie-policy-title">Cookies &amp; third-party services</h1>
+          <p class="cookie-policy-intro">
+            Here is a clear guide to the services this site uses and how they
+            may interact with your browser.
+          </p>
+        </header>
 
-      <h3>Services used</h3>
-      <ul>
-        <li>
-          The contact form uses EmailJS to send messages. EmailJS receives the
-          details you submit in the form so the message can be delivered.
-        </li>
-        <li>
-          The shop uses a PayPal hosted payment button. PayPal may use cookies
-          or similar technologies when you open PayPal checkout.
-        </li>
-        <li>
-          The site loads fonts, icons, and payment images from third-party
-          services needed to display the pages correctly.
-        </li>
-      </ul>
+        <section class="cookie-summary" aria-labelledby="summary-title">
+          <h2 id="summary-title">At a glance</h2>
+          <p>
+            We do not use Google Analytics or advertising pixels. Some features
+            connect to third-party services, which may use cookies or receive
+            technical information when you use them.
+          </p>
+        </section>
 
-      <h3>Your choices</h3>
-      <p>
-        You can control cookies through your browser settings. If you block
-        third-party services, some features such as the contact form or PayPal
-        checkout may not work as expected.
-      </p>
+        <section class="cookie-services" aria-labelledby="services-title">
+          <h2 id="services-title">Services used on this site</h2>
+          <div class="cookie-service-list">
+            <section class="cookie-service">
+              <h3>Contact form <span>EmailJS</span></h3>
+              <p>
+                When you submit the contact form, the details you provide are
+                sent to EmailJS so your message can be delivered.
+              </p>
+            </section>
+            <section class="cookie-service">
+              <h3>Payment <span>PayPal</span></h3>
+              <p>
+                The shop opens PayPal&rsquo;s hosted checkout. PayPal may use
+                cookies or similar technologies during checkout.
+              </p>
+            </section>
+            <section class="cookie-service">
+              <h3>Fonts and icons <span>Google Fonts &amp; Font Awesome</span></h3>
+              <p>
+                The site requests fonts and icons from these providers so they
+                can be displayed in your browser.
+              </p>
+            </section>
+          </div>
+        </section>
 
-      <p>
-        If you have a question about privacy or cookies, please use the
-        <a href="contact.html">contact page</a>.
-      </p>
+        <section class="cookie-choices" aria-labelledby="choices-title">
+          <h2 id="choices-title">Your choices</h2>
+          <p>
+            You can manage cookies through your browser settings. Blocking
+            third-party services may affect the contact form, checkout, or how
+            parts of the site display. This site does not have an on-page cookie
+            preference panel.
+          </p>
+          <p class="cookie-contact">
+            Questions about privacy or cookies?
+            <a href="contact.html">Get in touch</a>
+          </p>
+        </section>
+      </article>
     </main>
 
     <footer>

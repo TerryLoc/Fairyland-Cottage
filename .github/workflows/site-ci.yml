@@ -45,4 +45,6 @@ jobs:
 
       - name: Validate structured data JSON
         run: |
-          node -e "const fs=require('fs'); const pages=['index.html','videos.html','gallery.html','contact.html','shop.html','cookie-policy.html','404.html']; for (const f of pages) { const h=fs.readFileSync(f,'utf8'); const blocks=[...h.matchAll(/<script type=\"application\/ld\+json\">([\s\S]*?)<\/script>/g)]; if (blocks.length!==1) throw new Error(f+' JSON-LD blocks '+blocks.length); JSON.parse(blocks[0][1]); }"
+          node -e "const fs=require('fs'); const pages=['index.html','videos.html','gallery.html','contact.html','shop.html','cookie-policy.html','free-recipe/index.html']; for (const f of pages) { const h=fs.readFileSync(f,'utf8'); const blocks=[...h.matchAll(/<script type=\"application\/ld\+json\">([\s\S]*?)<\/script>/g)]; if (blocks.length!==1) throw new Error(f+' JSON-LD blocks '+blocks.length); JSON.parse(blocks[0][1]); } const error=fs.readFileSync('404.html','utf8'); if (!/name=\"robots\" content=\"noindex, follow\"/.test(error) || /rel=\"canonical\"|application\\/ld\\+json/.test(error)) throw new Error('404 page should be noindex and omit canonical/structured data');"
+      - name: Validate SEO output
+        run: node --test tests/seo.test.js

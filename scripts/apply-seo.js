@@ -4,7 +4,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const siteUrl = 'https://fairylandcottage.com';
 const defaultImage = `${siteUrl}/assets/images/webimages/house.webp`;
-const logoUrl = `${siteUrl}/assets/images/logo-fairyland.webp`;
+const logoUrl = `${siteUrl}/assets/favicon/android-chrome-512x512.png`;
 
 const pages = {
   'index.html': {
@@ -56,6 +56,20 @@ const pages = {
       'Read the Fairyland Cottage cookie policy, including how the site uses essential functionality, EmailJS contact forms, and PayPal checkout links.',
     path: '/cookie-policy.html',
     image: defaultImage,
+    imageAlt: 'A cottage surrounded by trees and greenery',
+    imageWidth: 6224,
+    imageHeight: 3372,
+    type: 'website',
+  },
+  'free-recipe/index.html': {
+    title: 'Free Bread Recipe | Fairyland Cottage',
+    description:
+      'Join Fairyland Cottage and download a free printable bread recipe to bring a little cottage warmth into your kitchen.',
+    path: '/free-recipe/',
+    image: defaultImage,
+    imageAlt: 'A cottage surrounded by trees and greenery',
+    imageWidth: 6224,
+    imageHeight: 3372,
     type: 'website',
   },
   '404.html': {
@@ -69,6 +83,22 @@ const pages = {
   },
 };
 
+pages['index.html'].imageAlt = 'A cottage surrounded by trees and greenery';
+pages['index.html'].imageWidth = 6224;
+pages['index.html'].imageHeight = 3372;
+pages['videos.html'].imageAlt = 'A peaceful winter forest';
+pages['videos.html'].imageWidth = 6240;
+pages['videos.html'].imageHeight = 4160;
+pages['gallery.html'].imageAlt = 'An Irish coastal sunrise';
+pages['gallery.html'].imageWidth = 6240;
+pages['gallery.html'].imageHeight = 4160;
+pages['contact.html'].imageAlt = 'A person walking through the countryside';
+pages['contact.html'].imageWidth = 4082;
+pages['contact.html'].imageHeight = 2148;
+pages['shop.html'].imageAlt = 'The Fairyland Cottage digital book bundle';
+pages['shop.html'].imageWidth = 6240;
+pages['shop.html'].imageHeight = 4160;
+
 for (const [file, meta] of Object.entries(pages)) {
   const filePath = path.join(root, file);
   if (!fs.existsSync(filePath)) {
@@ -76,10 +106,12 @@ for (const [file, meta] of Object.entries(pages)) {
   }
 
   const html = fs.readFileSync(filePath, 'utf8');
-  const updated = html.replace(
-    /<head>[\s\S]*?<\/head>/,
-    buildHead(meta, collectPageAssets(html)),
-  );
+  const headRegex = /<head>[\s\S]*?<\/head>/;
+  if (!headRegex.test(html)) {
+    throw new Error(`Missing <head> element: ${file}`);
+  }
+
+  const updated = html.replace(headRegex, buildHead(meta, collectPageAssets(html)));
 
   fs.writeFileSync(filePath, updated);
 }
@@ -106,7 +138,7 @@ function buildHead(meta, pageAssets) {
   const robots = meta.noindex
     ? 'noindex, follow'
     : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
-  const jsonLd = buildJsonLd(meta, canonical);
+  const jsonLd = meta.noindex ? null : buildJsonLd(meta, canonical);
 
   const lines = [
     '<head>',
@@ -117,29 +149,37 @@ function buildHead(meta, pageAssets) {
     `    <meta name="robots" content="${robots}" />`,
     '    <meta name="theme-color" content="#41462d" />',
     '    <meta name="color-scheme" content="light" />',
-    `    <link rel="canonical" href="${canonical}" />`,
+    ...(meta.noindex ? [] : [`    <link rel="canonical" href="${canonical}" />`]),
     `    <meta property="og:title" content="${escapeHtml(meta.title)}" />`,
     `    <meta property="og:description" content="${escapeHtml(meta.description)}" />`,
     `    <meta property="og:type" content="${meta.type === 'product' ? 'product' : 'website'}" />`,
     `    <meta property="og:url" content="${canonical}" />`,
     `    <meta property="og:image" content="${meta.image}" />`,
+    `    <meta property="og:image:alt" content="${escapeHtml(meta.imageAlt || meta.title)}" />`,
+    ...(meta.imageWidth && meta.imageHeight
+      ? [
+          `    <meta property="og:image:width" content="${meta.imageWidth}" />`,
+          `    <meta property="og:image:height" content="${meta.imageHeight}" />`,
+          '    <meta property="og:image:type" content="image/webp" />',
+        ]
+      : []),
     '    <meta property="og:site_name" content="Fairyland Cottage" />',
     '    <meta property="og:locale" content="en_IE" />',
-    '    <meta name="twitter:card" content="summary_large_image" />',
-    `    <meta name="twitter:title" content="${escapeHtml(meta.title)}" />`,
-    `    <meta name="twitter:description" content="${escapeHtml(meta.description)}" />`,
-    `    <meta name="twitter:image" content="${meta.image}" />`,
-    '    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />',
-    '    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />',
-    '    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png" />',
-    '    <link rel="manifest" href="assets/favicon/site.webmanifest" />',
+    '    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />',
+    '    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />',
+    '    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />',
+    '    <link rel="manifest" href="/assets/favicon/site.webmanifest" />',
     ...[...(meta.extraAssets || []), ...pageAssets].map((asset) => `    ${asset}`),
-    '    <script type="application/ld+json">',
-    JSON.stringify(jsonLd, null, 6)
-      .split('\n')
-      .map((line) => `      ${line}`)
-      .join('\n'),
-    '    </script>',
+    ...(jsonLd
+      ? [
+          '    <script type="application/ld+json">',
+          JSON.stringify(jsonLd, null, 6)
+            .split('\n')
+            .map((line) => `      ${line}`)
+            .join('\n'),
+          '    </script>',
+        ]
+      : []),
     '  </head>',
   ];
 
