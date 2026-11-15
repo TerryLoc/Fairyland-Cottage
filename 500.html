@@ -27,17 +27,59 @@
     <link rel="stylesheet" href="/assets/css/error-pages.css" />
   </head>
   <body class="error-page-body error-page-500">
-    <header class="error-site-header">
-      <a class="error-brand" href="/" aria-label="Fairyland Cottage home">
-        <img src="/assets/images/logo-fairyland.webp" alt="" />
-        <span>Fairyland Cottage</span>
+    <header class="side-nav">
+      <div class="side-elements">
+        <div id="img-menu">
+          <a href="/">
+            <img src="/assets/images/logo-fairyland.webp" alt="An image of baby succulents in different sized brown jars" />
+          </a>
+          <input type="checkbox" id="nav-toggle" name="nav-toggle" />
+          <label for="nav-toggle" class="nav-toggle-label">
+            <i class="fa-solid fa-ellipsis"></i>
+          </label>
+          <nav id="menu-bar">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/videos.html">Videos</a></li>
+              <li><a href="/gallery.html">Gallery</a></li>
+              <li><a href="/contact.html">Contact</a></li>
+              <li><a href="/shop.html">Shop</a></li>
+            </ul>
+          </nav>
+        </div>
+        <ul id="social-links">
+          <li>
+            <a href="https://www.instagram.com/fairylandcottage/" target="_blank" rel="noopener" aria-label="Our instagram link (opens in new tab)">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/fairylandcottage" target="_blank" rel="noopener" aria-label="Our youtube page (opens in new tab)">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <p>&#169;2024<br />Fairyland<br />Cottage</p>
+    </header>
+
+    <header class="top-header">
+      <a href="/">
+        <img src="/assets/images/logo-fairyland.webp" alt="An image of baby succulents in different sized brown jars" />
       </a>
-      <nav aria-label="Main navigation">
-        <a href="/">Home</a>
-        <a href="/videos.html">Videos</a>
-        <a href="/gallery.html">Gallery</a>
-        <a href="/shop.html">Shop</a>
-        <a href="/contact.html">Contact</a>
+      <h1 id="title">Fairyland Cottage</h1>
+      <input type="checkbox" id="nav-toggle2" name="nav-toggle" />
+      <label for="nav-toggle2" class="nav-toggle-label">
+        <i class="fa-solid fa-ellipsis"></i>
+      </label>
+      <nav id="menu-bar2">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/videos.html">Videos</a></li>
+          <li><a href="/gallery.html">Gallery</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+          <li><a href="/shop.html">Shop</a></li>
+        </ul>
       </nav>
     </header>
 
@@ -66,13 +108,23 @@
         </div>
       </section>
     </main>
-    <footer class="error-footer">
-      <span>&copy; Fairyland Cottage</span>
-      <a href="/cookie-policy.html">Cookie policy</a>
-      <div class="error-social">
-        <a href="https://www.youtube.com/fairylandcottage" target="_blank" rel="noopener noreferrer">YouTube</a>
-        <a href="https://www.instagram.com/fairylandcottage/" target="_blank" rel="noopener noreferrer">Instagram</a>
-      </div>
+    <footer>
+      <ul id="social-links2">
+        <li>
+          <a href="https://www.youtube.com/fairylandcottage" target="_blank" rel="noopener" aria-label="Our youtube page (opens in new tab)">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+        </li>
+        <li>
+          <p>&#169;2024 Fairyland Cottage<br /><a href="/cookie-policy.html">Cookie Policy</a></p>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/fairylandcottage/" target="_blank" rel="noopener" aria-label="Our instagram link (opens in new tab)">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </li>
+      </ul>
     </footer>
+    <script src="https://kit.fontawesome.com/712db90352.js" crossorigin="anonymous"></script>
   </body>
 </html>

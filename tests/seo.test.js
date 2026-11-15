@@ -74,6 +74,9 @@ test('404 and 500 pages are excluded from indexing and use site-root assets', ()
     assert.match(html, new RegExp(`<p class="error-code" aria-hidden="true">${code}<\\/p>`), `${file} displays its status`);
     assert.match(html, /<h1 id="error-title">[^<]+<\/h1>/, `${file} has one clear page heading`);
     assert.match(html, /href="\/assets\/css\/error-pages\.css"/, `${file} uses the shared error page stylesheet`);
+    assert.match(html, /<header class="side-nav">[\s\S]*?<header class="top-header">/, `${file} uses the site's responsive headers`);
+    assert.match(html, /<footer>\s*<ul id="social-links2">/, `${file} uses the site's standard footer`);
+    assert.match(html, /id="social-links"/, `${file} includes the mobile social links`);
     assert.match(html, /href="\/"[^>]*>[^<]+<\/a>/, `${file} links back to the home page`);
     assert.match(headers, new RegExp(`/${code === '404' ? '404' : '500'}\\.html[\\s\\S]*?X-Robots-Tag: noindex, follow`));
   }

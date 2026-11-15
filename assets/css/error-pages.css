@@ -6,60 +6,9 @@
     var(--secondary-color);
 }
 
-.error-site-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.8rem 1rem 0.9rem;
-  background: var(--main-color);
-  border-bottom: 1px solid rgba(65, 70, 45, 0.3);
-}
-
-.error-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  color: var(--font-color1);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.error-brand img {
-  width: 48px;
-  height: 44px;
-  object-fit: contain;
-}
-
-.error-site-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.25rem 1rem;
-}
-
-.error-site-header nav a,
-.error-footer a {
-  color: var(--font-color1);
-  text-underline-offset: 0.2em;
-}
-
-.error-site-header nav a {
-  padding: 0.25rem 0;
-  font-size: 0.95rem;
-  text-decoration: none;
-}
-
-.error-site-header nav a:hover,
-.error-footer a:hover {
-  text-decoration: underline;
-}
-
-.error-site-header a:focus-visible,
-.error-footer a:focus-visible,
+.side-nav a:focus-visible,
+.top-header a:focus-visible,
+#social-links2 a:focus-visible,
 .error-button:focus-visible {
   outline: 3px solid #64694c;
   outline-offset: 4px;
@@ -68,8 +17,8 @@
 
 .error-page-main {
   flex: 1 0 auto;
-  width: min(100% - 2rem, 1040px);
-  margin: 0 auto;
+  width: auto;
+  margin: 0 4.5rem 0 1rem;
   padding: 1.5rem 0 2rem;
   font-size: 1rem;
 }
@@ -203,46 +152,13 @@
   background: rgba(222, 213, 205, 0.55);
 }
 
-.error-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem 1.25rem;
-  padding: 0.9rem 1rem;
-  background: var(--main-color);
-  border-top: 1px solid rgba(65, 70, 45, 0.3);
-  font-size: 0.85rem;
-}
-
-.error-social {
-  display: flex;
-  gap: 1rem;
-}
-
 @media screen and (min-width: 768px) {
-  .error-site-header {
-    gap: 0.55rem;
-    padding: 0.65rem 1rem;
-  }
-
-  .error-brand {
-    font-size: 1.35rem;
-  }
-
-  .error-brand img {
-    width: 56px;
-    height: 50px;
-  }
-
-  .error-site-header nav {
-    gap: 0.5rem 1.6rem;
-  }
-
   .error-page-main {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: min(100% - 3rem, 1040px);
+    margin: 210px auto 0;
     padding: 2rem 0;
   }
 
@@ -264,6 +180,18 @@
     align-items: center;
     justify-content: center;
     padding: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .error-page-main {
+    margin-top: 230px;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .error-page-main {
+    margin-top: 200px;
   }
 }
 
