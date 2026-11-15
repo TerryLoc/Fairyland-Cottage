@@ -309,6 +309,28 @@ h1 {
   margin-bottom: 15px;
 }
 
+.shop-promo-video {
+  width: min(980px, 92%);
+  margin: 40px auto 48px;
+}
+
+.shop-promo-video h2 {
+  width: auto;
+  margin: 0 0 16px;
+}
+
+.shop-promo-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 2px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 20px;
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
+  background: #000;
+}
+
 /* ---------------- Media Queries ---------------- */
 
 @media (max-width: 720px) {
