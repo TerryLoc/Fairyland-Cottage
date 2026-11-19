@@ -397,10 +397,10 @@ the PDF and audio file. Paste-ready EmailJS template HTML is in
 
 The distraction-free landing page is at `/free-recipe/`. Before sharing it:
 
-1. Add the finished recipe PDF as `assets/recipe.pdf`. To use another path,
-   update both the download link in `free-recipe/index.html` and the PDF check
-   in `assets/js/free-recipe.js`. The form will not submit until the PDF is
-   available and served as `application/pdf`.
+1. Keep the finished recipe PDF at `assets/fairyland-soda_bread.pdf`. If its
+   path changes, update both the download link in `free-recipe/index.html` and
+   the PDF check in `assets/js/free-recipe.js`. The form will not submit until
+   the PDF is available and served as `application/pdf`.
 2. Set `KIT_API_KEY` as a secret environment variable in Netlify for the
    Functions runtime and redeploy. Create the key in Kit's developer settings;
    never put it in the HTML or commit it to the repository.

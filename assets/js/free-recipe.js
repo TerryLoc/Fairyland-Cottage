@@ -13,7 +13,7 @@ recipeForm.addEventListener('submit', async (event) => {
   recipeButton.textContent = 'Just a moment...';
 
   try {
-    const pdf = await fetch('/assets/recipe.pdf', { method: 'HEAD', cache: 'no-store' });
+    const pdf = await fetch('/assets/fairyland-soda_bread.pdf', { method: 'HEAD', cache: 'no-store' });
     if (!pdf.ok || !pdf.headers.get('content-type')?.toLowerCase().startsWith('application/pdf')) {
       throw new Error(unavailableMessage);
     }
