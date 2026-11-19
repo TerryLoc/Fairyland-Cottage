@@ -1,10 +1,17 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const { handler } = require('../netlify/functions/recipe-signup');
 
 const request = (body, method = 'POST') => ({
   httpMethod: method,
   body: typeof body === 'string' ? body : JSON.stringify(body),
+});
+
+test('free recipe page loads its signup script', () => {
+  const page = fs.readFileSync(path.join(__dirname, '../free-recipe/index.html'), 'utf8');
+  assert.match(page, /<script src="\/assets\/js\/free-recipe\.js" defer><\/script>/);
 });
 
 test('rejects invalid requests before contacting Kit', async () => {
